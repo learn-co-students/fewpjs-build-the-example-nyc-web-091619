@@ -4,8 +4,45 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+// let errorDiv = document.getElementById("model")
+// document.addEventListener("click", (e)=>{
+//   if (e.target.className === "like-glyph"){
+//     if (e.target.innerHTML === EMPTY_HEART){
+//       e.target.innerHTML = FULL_HEART
+//     } else if (e.target.innerHTML === FULL_HEART){
+//       e.target.innerHTML = EMPTY_HEART
+//     }
+//   }
+//   // console.log(e.target.className)
+// })
 
+let glyphStates = {
+  "♡": "♥",
+  "♥": "♡"
+};
 
+let colorStates = {
+  "red" : "",
+  "": "red"
+};
+
+let articleHearts = document.querySelectorAll(".like");
+
+function likeCallback(e) {
+  let heart = e.target;
+  mimicServerCall("bogusUrl")
+    .then(function(serverMessage){
+       heart.innerText = glyphStates[heart.innerText];
+       heart.style.color = colorStates[heart.style.color];
+    })
+    .catch(function(error) {
+      document.getElementById("modal").className = "";
+    });
+}
+
+for (let glyph of articleHearts) {
+  glyph.addEventListener("click", likeCallback);
+}
 
 //------------------------------------------------------------------------------
 // Ignore after this point. Used only for demo purposes
